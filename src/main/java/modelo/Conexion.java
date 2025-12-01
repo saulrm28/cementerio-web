@@ -13,7 +13,7 @@ public class Conexion {
     private static final String PASS = "S0Jg2R8tuLI6HC4a62CV";  // Tu Password
     
    
-    private static final String URL = "jdbc:mysql://" + HOST + ":3306/" + DB + "?useSSL=false&serverTimezone=UTC";
+   private static final String URL = "jdbc:mysql://" + HOST + ":3306/" + DB + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
     public static Connection getConexion() throws SQLException {
         try {
@@ -25,4 +25,5 @@ public class Conexion {
             throw new SQLException(e);
         }
     }
+
 }
