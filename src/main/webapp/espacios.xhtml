@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+        <ui:composition template="./plantilla.xhtml">
+            <ui:define name="tituloWeb">Espacios</ui:define>
+            <ui:define name="contenido">
+
+                <h:form id="formRegistroEspacio">
+                    <b:panel title="Registrar Nuevo Espacio" look="primary" collapsible="false">
+                        <b:row>
+                            <b:column col-md="4">
+                                <b:inputText label="Código (ej. A-01)" value="#{espacioBean.nuevoEspacio.codigo}" required="true"/>
+                            </b:column>
+                            <b:column col-md="4">
+                                <b:selectOneMenu label="Tipo" value="#{espacioBean.nuevoEspacio.tipo}" required="true">
+                                    <f:selectItem itemLabel="-- Seleccione --" itemValue="" />
+                                    <f:selectItem itemLabel="Nicho" itemValue="Nicho" />
+                                    <f:selectItem itemLabel="Tumba" itemValue="Tumba" />
+                                    <f:selectItem itemLabel="Mausoleo" itemValue="Mausoleo" />
+                                </b:selectOneMenu>
+                            </b:column>
+                            <b:column col-md="4">
+                                <b:selectOneMenu label="Estado" value="#{espacioBean.nuevoEspacio.estado}" required="true">
+                                    <f:selectItem itemLabel="Disponible" itemValue="Disponible" />
+                                    <f:selectItem itemLabel="Ocupado" itemValue="Ocupado" />
+                                    <f:selectItem itemLabel="Mantenimiento" itemValue="Mantenimiento" />
+                                </b:selectOneMenu>
+                            </b:column>
+                        </b:row>
+                        <b:commandButton value="Guardar Espacio" look="success" icon="save" 
+                                         action="#{espacioBean.agregarEspacio}" update="@form :tablaEspacios" />
+                    </b:panel>
+                </h:form>
+
+                <b:panel title="Inventario de Espacios" look="info" collapsible="false">
+                    <h:form id="tablaEspacios">
+                        <b:dataTable value="#{espacioBean.listaEspacios}" var="espacio" responsive="true">
+                            <b:dataTableColumn value="#{espacio.id}" label="ID" width="50px"/>
+                            <b:dataTableColumn value="#{espacio.codigo}" label="Código"/>
+                            <b:dataTableColumn value="#{espacio.tipo}" label="Tipo"/>
+                            <b:dataTableColumn label="Estado">
+                                <b:label text="#{espacio.estado}" severity="#{espacio.estado == 'Disponible' ? 'success' : (espacio.estado == 'Ocupado' ? 'danger' : 'warning')}"/>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Opciones" orderable="false">
+                                <b:commandButton look="warning" icon="edit" size="xs" 
+                                                 action="#{espacioBean.irAModificar(espacio)}" 
+                                                 value="Editar" style="margin-right:5px"/>
+                                <b:commandButton look="danger" icon="trash" size="xs" 
+                                                 action="#{espacioBean.eliminarEspacio(espacio.id)}" 
+                                                 value="Eliminar" onclick="return confirm('¿Seguro?');" update="@form"/>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>
+                </b:panel>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
