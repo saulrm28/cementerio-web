@@ -1,15 +1,15 @@
-# 1. Usamos una imagen con Maven y Java 17 para construir
+# 1. Etapa de Construcción (Maven)
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
-# Construimos el proyecto ignorando los tests para ir rápido
 RUN mvn clean package -DskipTests
 
-# 2. Usamos una imagen con Payara Micro 6 para ejecutar
+# 2. Etapa de Ejecución (Payara Micro)
 FROM payara/micro:6.2023.10-jdk17
-# Copiamos el archivo WAR que se creó en el paso anterior
-# OJO: Asegúrate que el nombre s02_s2-1.0-SNAPSHOT.war coincida con tu pom.xml
+
+# Copiamos el WAR generado
 COPY --from=build /app/target/s02_s2-1.0-SNAPSHOT.war /opt/payara/deployments/ROOT.war
 
-# 3. Le decimos a Payara que arranque en el puerto que Railway nos asigne
-CMD ["--deploy", "/opt/payara/deployments/ROOT.war", "--port", "$PORT"]
+# --- CORRECCIÓN AQUÍ ---
+# Usamos ENTRYPOINT con "sh -c" para que Java pueda leer la variable $PORT correctamente
+ENTRYPOINT ["sh", "-c", "java -jar /opt/payara/payara-micro.jar --deploy /opt/payara/deployments/ROOT.war --port $PORT"]
