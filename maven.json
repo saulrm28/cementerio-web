@@ -2,7 +2,11 @@
   "build": {
     "goal": "package"
   },
+  "hooks": {
+    "postBuild": "wget -O payara-micro.jar https://repo1.maven.org/maven2/fish/payara/extras/payara-micro/5.2022.5/payara-micro-5.2022.5.jar"
+  },
   "deploy": {
-    "jarName": "target/s02_s2-1.0-SNAPSHOT.war"
+    "jarName": "payara-micro.jar",
+    "run": "java -jar payara-micro.jar --deploy target/s02_s2-1.0-SNAPSHOT.war --port 8080"
   }
 }
