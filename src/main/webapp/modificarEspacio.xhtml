@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+        <ui:composition template="./plantilla.xhtml">
+            <ui:define name="tituloWeb">Editar Espacio</ui:define>
+            <ui:define name="contenido">
+
+                <h:form>
+                    <b:panel title="Editar Espacio: #{modificarEspacioBean.espacio.codigo}" look="warning" collapsible="false">
+                        <h:inputHidden value="#{modificarEspacioBean.espacio.id}" />
+                        
+                        <b:row>
+                            <b:column col-md="4">
+                                <b:inputText label="Código" value="#{modificarEspacioBean.espacio.codigo}" required="true"/>
+                            </b:column>
+                            <b:column col-md="4">
+                                <b:selectOneMenu label="Tipo" value="#{modificarEspacioBean.espacio.tipo}">
+                                    <f:selectItem itemLabel="Nicho" itemValue="Nicho" />
+                                    <f:selectItem itemLabel="Tumba" itemValue="Tumba" />
+                                    <f:selectItem itemLabel="Mausoleo" itemValue="Mausoleo" />
+                                </b:selectOneMenu>
+                            </b:column>
+                            <b:column col-md="4">
+                                <b:selectOneMenu label="Estado" value="#{modificarEspacioBean.espacio.estado}">
+                                    <f:selectItem itemLabel="Disponible" itemValue="Disponible" />
+                                    <f:selectItem itemLabel="Ocupado" itemValue="Ocupado" />
+                                    <f:selectItem itemLabel="Mantenimiento" itemValue="Mantenimiento" />
+                                </b:selectOneMenu>
+                            </b:column>
+                        </b:row>
+
+                        <hr/>
+                        <b:commandButton value="Actualizar" look="success" icon="save" action="#{modificarEspacioBean.actualizarEspacio}" />
+                        <b:button value="Cancelar" look="default" href="espacios.xhtml" style="margin-left: 10px;"/>
+                    </b:panel>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
