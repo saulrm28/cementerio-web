@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+       xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Cementerio La Paz | <ui:insert name="tituloWeb">Inicio</ui:insert></title>
+        <style>
+            .posicionar { margin-top: 70px; }
+        </style>
+    </h:head>
+
+    <h:body>
+        <b:navBar brand="La Paz" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Difuntos" href="index.xhtml" icon-awesome="user"/>
+                <b:navLink value="Espacios" href="espacios.xhtml" icon-awesome="th-large"/>
+            </b:navbarLinks>
+        </b:navBar>
+
+        <b:container styleClass="posicionar">
+            <ui:insert name="contenido"></ui:insert>
+        </b:container>
+        
+        <b:container>
+            <hr/>
+            <footer>
+                <p>© 2025 Cementerio La Paz</p>
+            </footer>
+        </b:container>
+
+    </h:body>
+</html>

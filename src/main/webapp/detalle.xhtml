@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+    <body>
+        <ui:composition template="./plantilla.xhtml">
+
+            <ui:define name="tituloWeb">Expediente Digital</ui:define>
+
+            <ui:define name="contenido">
+
+                <b:row>
+                    <b:column col-md="4">
+                        <b:panel look="primary" collapsible="false">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <img src="https://placehold.co/200x200/ECF0F1/2C3E50?text=Sin+Foto" 
+                                     class="img-circle img-thumbnail" alt="Foto de Perfil" />
+                                
+                                <hr/>
+                                
+                                <p class="text-muted">Escanee para ubicación GPS</p>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Difunto:#{detalleBean.difunto.nombre}-Ubicacion:#{detalleBean.difunto.espacio.codigo}" 
+                                     alt="QR Code" style="border: 1px solid #ddd; padding: 5px;"/>
+                            </div>
+
+                            <b:listLinks>
+                                <b:navLink header="Acciones de Expediente" />
+                                <b:navLink value="Imprimir Certificado" icon="print" onclick="window.print(); return false;"/>
+                                <b:navLink value="Reportar Incidencia" icon="exclamation-sign" href="#"/>
+                                <b:navLink value="Contactar Familiares" icon="phone" href="#"/>
+                            </b:listLinks>
+                        </b:panel>
+                    </b:column>
+
+                    <b:column col-md="8">
+                        
+                        <b:jumbotron style="padding: 20px; background: white; border-left: 5px solid #337ab7; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <h2 style="margin-top:0; color: #333;">#{detalleBean.difunto.nombre}</h2>
+                            <p class="text-muted">
+                                <b:iconAwesome name="id-card-o" /> ID Registro: <strong>#{detalleBean.difunto.id}</strong> | 
+                                <b:iconAwesome name="flag" /> Nacionalidad: <strong>Peruana</strong>
+                            </p>
+                            
+                            <div style="margin-top: 15px;">
+                                <b:label text="Nacimiento: #{detalleBean.difunto.fechaNacimiento}" severity="success" style="font-size: 14px; padding: 8px;"/>
+                                <span style="margin: 0 10px; color: #999;">-----------------</span>
+                                <b:label text="Defunción: #{detalleBean.difunto.fechaDefuncion}" severity="default" style="font-size: 14px; padding: 8px; background-color: #333;"/>
+                            </div>
+                        </b:jumbotron>
+
+                        <b:tabView activeIndex="0" contentStyle="border: 1px solid #ddd; border-top:0px; padding: 20px; background:white;">
+                            
+                            <b:tab title="Datos Generales">
+                                <b:row>
+                                    <b:column col-md="6">
+                                        <b:panel look="info" title="Biografía" collapsible="false">
+                                            <table class="table table-striped">
+                                                <tbody>
+                                                    <tr><th>Edad al fallecer:</th><td>#{detalleBean.calcularEdadAlFallecer()}</td></tr>
+                                                    <tr><th>Estado Civil:</th><td>No Registrado</td></tr> <tr><th>Causa Defunción:</th><td>Reservado</td></tr> <tr><th>Religión:</th><td>Católica</td></tr> </tbody>
+                                            </table>
+                                        </b:panel>
+                                    </b:column>
+                                    <b:column col-md="6">
+                                        <b:panel look="warning" title="Notas Administrativas" collapsible="false">
+                                            <p>El mantenimiento anual se encuentra al día.</p>
+                                            <p>Se requieren flores frescas para el aniversario.</p>
+                                            <b:progressBar value="100" look="success" caption="Estado de Cuenta: AL DÍA" />
+                                        </b:panel>
+                                    </b:column>
+                                </b:row>
+                            </b:tab>
+
+                            <b:tab title="Ubicación y Sepultura">
+                                <b:row>
+                                    <b:column col-md="12">
+                                        <b:alert severity="success">
+                                            <b:iconAwesome name="map-marker" size="lg"/> 
+                                            El cuerpo descansa en el <strong>#{detalleBean.difunto.espacio.tipo}</strong>, código <strong>#{detalleBean.difunto.espacio.codigo}</strong>.
+                                        </b:alert>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column col-md="6">
+                                        <ul class="list-group">
+                                            <li class="list-group-item active">Detalles del Servicio</li>
+                                            <li class="list-group-item"><strong>Hora del Entierro:</strong> #{detalleBean.difunto.horaEntierro}</li>
+                                            <li class="list-group-item"><strong>Estado del Espacio:</strong> <span class="badge" style="background:red">#{detalleBean.difunto.espacio.estado}</span></li>
+                                            <li class="list-group-item"><strong>Tipo de Ceremonia:</strong> Presencial</li>
+                                        </ul>
+                                    </b:column>
+                                    <b:column col-md="6">
+                                        <div style="border: 2px dashed #ccc; padding: 20px; text-align: center; color: #999;">
+                                            <b:iconAwesome name="map" size="3x"/><br/>
+                                            Vista previa del mapa<br/>
+                                            (Ver sección Mapas para detalle)
+                                        </div>
+                                    </b:column>
+                                </b:row>
+                            </b:tab>
+
+                        </b:tabView>
+
+                        <div style="margin-top: 20px; text-align: right;">
+                            <b:button value="Volver al Listado" look="default" href="index.xhtml" icon="arrow-left"/>
+                            <b:button value="Editar Información" look="warning" href="#" onclick="return alert('Ir a modificar...');" icon="pencil"/>
+                        </div>
+
+                    </b:column>
+                </b:row>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
